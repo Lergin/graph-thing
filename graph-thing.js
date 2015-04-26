@@ -1,3 +1,8 @@
+ /*
+ All rights reserved - Malte 'Lergin' Laukötter
+ */
+
+
  Polymer('graph-thing', {
      //list of currend languages
      langs: {
@@ -30,7 +35,7 @@
      },
 
      ready: function() {
-         // this.$.la.trackView();
+         this.$.la.trackView();
          limited_ecautchy = new growth('["k","log_g","s","end"]', "<res> + <k> * (<log_g>-<res>)", true);
          limited_rkutta = new growth('["k","log_g","s","end"]', "<log_g> - (<log_g> - <s>) * Math.pow(Math.E, ((-<k>) * <i>))", false);
          log_ecautchy = new growth('["k","log_g","s","end"]', "<res> + <k> * <res> * (<log_g>-<res>)", true);
@@ -64,28 +69,28 @@
      lastfkt: undefined,
 
      log: function() {
-         this.lastfkt = "log"
+         this.lastfkt = "log";
 
-             if (this.verfahren == "Euler Cautchy") {
-                 log_ecautchy.run();
-             } else {
-                 log_rkutta.run();
-             }
+         if (this.verfahren == "Euler Cautchy") {
+             log_ecautchy.run();
+         } else {
+             log_rkutta.run();
+         }
      },
 
      exp: function() {
-         this.lastfkt = "exp"
+         this.lastfkt = "exp";
 
-
-             if (this.verfahren == "Euler Cautchy") {
-                 exp_ecautchy.run()
-             } else {
-                 exp_rkutta.run()
-             }
+         if (this.verfahren == "Euler Cautchy") {
+             exp_ecautchy.run()
+         } else {
+             exp_rkutta.run()
+         }
      },
 
      limited: function() {
-         this.lastfkt = "limited"
+         this.lastfkt = "limited";
+
          if (this.verfahren == "Euler Cautchy") {
              limited_ecautchy.run();
          } else {
@@ -107,6 +112,12 @@
 
      aas: function() {
          this.asd = eval("Math.pow(" + this.asd + ",2)");
+     },
+
+     toFixed: function(value, precision) {
+         if (value) {
+             return Number(value).toFixed(precision);
+         }
      }
  });
 
@@ -117,7 +128,6 @@
      this.vars = vars;
      this.startatone = startatone ? true : false;
      this.run = function() {
-         console.log("Start generating")
          var data = "[";
 
          var app = document.getElementById("app");
@@ -149,13 +159,12 @@
              fktn = fktn.replace(/<res>/gi, res);
              var res = eval(fktn);
 
-             data += "[" + i + "," + res.toFixed(2) + "],";
+             data += "[" + i + "," + res + "],";
          }
 
          data = data.slice(0, -1) + "]";
 
          app.data = JSON.parse(data);
-         console.log(data);
          return true;
      }
  };
