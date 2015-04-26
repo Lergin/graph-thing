@@ -1,0 +1,52 @@
+body {
+  background: #fafafa;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+paper-tabs::shadow #selectionBar {
+  background-color: #FFEB3B;
+}
+
+paper-tabs paper-tab::shadow #ink {
+  color: #1976D2;
+}
+
+paper-tabs {
+    background-color: #2196F3;
+}
+
+core-selector paper-item:nth-child(even) {
+    background-color: #2196F3;
+}
+
+core-selector paper-item:nth-child(odd) {
+    background-color: #03A9F4;
+}
+
+/*currently not supportet by webcomponents (nth-child(n))*/
+body /deep/ #world core-selector paper-item:nth-child(1) core-icon{
+    display: none;
+}
+
+core-selector paper-item:hover {
+    background-color: #536DFE;
+}
+
+body /deep/ paper-button:hover {
+    font-weight: bold;
+}
+
+body /deep/ paper-checkbox[nodefault]::shadow #checkbox {
+    background-color: #f44242;
+    border-color: #f44242;
+}
+
+core-selector paper-item.core-selected {
+    background-color: #536DFE;
+    font-weight: bold;
+}
+
+paper-item:hover{
+    font-weight: bold;
+}
