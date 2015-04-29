@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="a planing tool for minecraft buildings">
+    <meta name="description" content="a tool that can create graphs for differnt functions">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>graph-thing</title>
 
     <link rel="stylesheet" href="styles/main.css">
 
     <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
-
     <link rel="import" href="../bower_components/google-chart/google-chart.html">
     <link rel="import" href="../bower_components/core-list/core-list.html">
     <link rel="import" href="../lergin-analytics/lergin-analytics.html">
     <link rel="import" href="../bower_components/paper-button/paper-button.html">
     <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 </head>
 
 <body unresolved layout vertical>
@@ -23,38 +23,34 @@
     <polymer-element name="graph-thing">
         <template>
             <lergin-analytics id="la"></lergin-analytics>
-            <!-- options='{ "curveType": "function", "hAxis": {"title": "Anzahl"}, "vAxis": {"title": "???"}}'-->
             <core-ajax auto url="locales/{{lang}}.json" handleAs="json" response="{{translation}}"></core-ajax>
             <div layout horizontal>
-                <google-chart type='line' rows="{{data}}" cols='[{"label": "x", "type": "number"},{"label": "y", "type": "number"}]'></google-chart>
-                <core-list style="height:300px; width: 150px; margin-right:10px" data="{{data}}">
+                <google-chart type='line' rows="{{data}}" cols='{{cols}}'></google-chart>
+                <core-list style="height:300px; margin-right:10px" data="{{data}}" flex>
                     <template>
                         <div layout horizontal>
-                            <div style="min-width:30px;margin-right:5px;">
-                                {{model[0]}}
-                            </div>
-                            <div flex>
-                                {{model[1]|toFixed(2)}}
-                            </div>
+                            <template repeat="{{m in model}}">
+                                <div flex>
+                                    {{m|toFixed(2)}}
+                                </div>
+                            </template>
                         </div>
                     </template>
                 </core-list>
-
-
-                <div layout vertical flex>
-
-
+            </div>
+            <div layout horizontal>
+                <div layout vertical style="width:50%">
                     <paper-input-decorator floatingLabel label="Steigung">
-                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{k}}">
+                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{k}}" on-change="{{lastfunction}}">
                     </paper-input-decorator>
                     <paper-input-decorator floatingLabel label="Grenzwert">
-                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{log_g}}">
+                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{G}}" on-change="{{lastfunction}}">
                     </paper-input-decorator>
                     <paper-input-decorator floatingLabel label="Startwert">
-                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{s}}">
+                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{s}}" on-change="{{lastfunction}}">
                     </paper-input-decorator>
                     <paper-input-decorator floatingLabel label="Länge">
-                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{end}}">
+                        <input is="core-input" preventInvalidInput type="number" step="any" committedValue="{{end}}" on-change="{{lastfunction}}">
                     </paper-input-decorator>
 
                     <paper-button on-tap="{{toggle_verfahren}}">{{verfahren}}</paper-button>
@@ -62,17 +58,18 @@
                     <paper-button on-tap="{{limited}}">Beschränktes Wachstum</paper-button>
                     <paper-button on-tap="{{exp}}">Exponentielles Wachstum</paper-button>
                 </div>
-
+                <div layout vertical style="width:50%">
+                    <textarea value="{{fkts}}" style="height: 15vh;" placeholder="Formeln"></textarea>
+                    <textarea value="{{vars}}" style="height: 15vh;" placeholder="Variablen"></textarea>
+                    <paper-button on-tap="{{custom}}">Custom Growth</paper-button>
+                </div>
             </div>
-            <paper-input committedValue="{{asd}}"></paper-input> {{asd}}
-            <button on-tap="{{aas}}">Ausrechnen</button>
-
+            <paper-toast autoCloseDisabled id="error" text="{{error}}"></paper-toast>
         </template>
         <script src="graph-thing.js"></script>
     </polymer-element>
 
     <graph-thing id="app"></graph-thing>
-
 
     <span style="position: fixed;bottom: 0px;width: 100vw;left: 0px;">
         <div layout horizontal>
@@ -84,12 +81,9 @@
                 Copyright &copy; 2015 Malte 'Lergin' Laukötter
             </span>
             <span>
-                Fork this project on <a href="https://github.com/Lergin/graphthing" target="_blank">Github</a> or visit my outher projects:
+                Fork this project on <a href="https://github.com/Lergin/graph-thing" target="_blank">Github</a> or visit my outher projects:
                 <a href="https://github.com/Lergin/" target="_blank">Github</a> <a href="http://lergin.lima-city.de" target="_blank">Demopage</a>
             </span>
-        </div>
-        <div layout horizontal center center-justified>
-            Minecraft ®/TM & © 2009-2013 Mojang / Notch | This tool is not approved, endorsed, associated or connected to Mojang and is also not official.
         </div>
     </span>
 
