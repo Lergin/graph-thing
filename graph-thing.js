@@ -250,12 +250,12 @@
  });
 
 
- /*
+ /**
   * The object for the growth functions
   *
-  * @param vars   array of strings    a array of needed vars
-  * @param fkt    string              the function as a string that can be used in eval()  vars in <> (i = position, res = old value)
-  * @param useRes boolean             if the function use the res value
+  * @param vars   {array of strings}    a array of needed vars
+  * @param fkt    {string}              the function as a string that can be used in eval()  vars in <> (i = position, res = old value)
+  * @param useRes {boolean}             if the function use the res value
   */
  growth = function(vars, fkt, useRes) {
 
